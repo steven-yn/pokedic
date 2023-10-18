@@ -1,21 +1,11 @@
-# next-js-fast-starterkit
+# Pokedic
 
-## 버전 고정
+## Next.js (Page Router)
 
-- pnpm@7.26.3 ( pnpm-lock )
-- next@13.4.7 ( App Router )
+Next.js 13 버전을 사용하지만, 페이지 라우터를 사용하였습니다.
+아직 앱 라우터에 이해도가 부족하여 미숙하기도 하고, 페이지 라우터의 안정성이 좀더 높다고 생각합니다.
 
-## 구성
+### 기능 구현 설명
 
-- pnpm
-- next.js ( App Router )
-- jest
-- storybook
-- eslint
-- husky, lint-staged
-
-## 설명
-
-- next.js 13.4.7 이후 버전에서 storybook 의 필수 플러그인과 충돌 문제가 있어 버전 13.4.7 로 고정
-- pnpm 8.x 이후 버전에서 storybook 빌드가 안되는 문제가 있어 7.26.3 으로 고정
-- jest 설정이나 관련 패키지가 다소 오버헤드가 있을수 있음 (react-test-renderer, ts-jest)
+'/' 페이지 <= 포켓몬 리스트 및 무한 스크롤
+'/[id]' 페이지 <= 포켓몬 id 별 상세 페이지
