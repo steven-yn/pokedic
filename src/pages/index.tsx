@@ -1,11 +1,9 @@
-import { dehydrate } from '@tanstack/react-query';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import Pokemons from '@/components/Pokemons';
 import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
-import createQueryClient from '@/utils/createQueryClient';
-import { pokemonPagenate } from '@/utils/pokemonPagenate';
+import commonServerSiderProps from '@/utils/commonServerSiderProps';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,20 +25,10 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async () => {
-  const queryClient = createQueryClient();
-  await queryClient.fetchInfiniteQuery({
-    queryKey: [pokemonKeys.list],
-    queryFn: () =>
-      FetchPokemon.pokemons({
-        params: pokemonPagenate(1),
-      }),
-    initialPageParam: 1,
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};
+export const getServerSideProps = commonServerSiderProps([
+  {
+    key: [pokemonKeys.list],
+    callback: FetchPokemon.pokemons,
+    fetchMode: 'INFINITE',
+  },
+]);
