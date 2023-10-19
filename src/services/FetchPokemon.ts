@@ -5,11 +5,11 @@ import { pokemonFetchOptions } from './fetchOptions';
 class FetchPokemon extends FetchCore {
   private resource = '/pokemon';
 
-  public pokemons = async (
-    payload?: PokemonRequest,
-  ): Promise<PokemonFetchResult> => {
-    const { init, params } = payload || {};
-    const response = await this.request<PokemonsResponse, ListParams>(
+  public pokemonList = async ({
+    init,
+    params,
+  }: PokemonListRequest): Promise<PokemonListFetchResult> => {
+    const response = await this.request<PokemonListResponse, PaginationParams>(
       this.resource,
       {
         method: 'GET',
@@ -22,6 +22,18 @@ class FetchPokemon extends FetchCore {
       ...response,
       page: getPokemonPage(params?.offset || 1),
     };
+  };
+
+  public pokemon = async ({ pathParam, init }: PokemonRequest) => {
+    const response = await this.request<PokemonResponse, undefined>(
+      `${this.resource}/${pathParam || Number(0)}`,
+      {
+        method: 'GET',
+        init,
+      },
+    );
+
+    return response;
   };
 }
 

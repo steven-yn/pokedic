@@ -1,23 +1,24 @@
 import { dehydrate } from '@tanstack/react-query';
+import { GetServerSidePropsContext } from 'next';
 import createQueryClient from './createQueryClient';
 
-interface Params<P> {
+interface Params {
   key: string[];
-  callback: () => Promise<P>;
+  callback: (context: GetServerSidePropsContext) => Promise<any>;
   fetchMode?: 'INFINITE' | 'NORMAL';
 }
 
-export default function commonServerSiderProps<P>(resources: Array<Params<P>>) {
-  const asyncClousure = async () => {
+export default function commonServerSiderProps(resources: Array<Params>) {
+  const getServerSideProps = async (context: GetServerSidePropsContext) => {
     const queryClient = createQueryClient();
-
+    context.query;
     await Promise.all(
       resources.map(({ fetchMode, key, callback }) => {
         switch (fetchMode) {
           case 'INFINITE': {
             return queryClient.fetchInfiniteQuery({
               queryKey: key,
-              queryFn: callback,
+              queryFn: () => callback(context),
               initialPageParam: 1,
             });
           }
@@ -25,14 +26,14 @@ export default function commonServerSiderProps<P>(resources: Array<Params<P>>) {
           case 'NORMAL': {
             return queryClient.fetchQuery({
               queryKey: key,
-              queryFn: callback,
+              queryFn: () => callback(context),
             });
           }
 
           default: {
             return queryClient.fetchQuery({
               queryKey: key,
-              queryFn: callback,
+              queryFn: () => callback(context),
             });
           }
         }
@@ -46,5 +47,5 @@ export default function commonServerSiderProps<P>(resources: Array<Params<P>>) {
     };
   };
 
-  return asyncClousure;
+  return getServerSideProps;
 }

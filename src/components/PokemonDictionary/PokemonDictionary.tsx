@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
-import Intersection from './Intersection';
-import usePokemonsData from './usePokemonsData';
+import Intersection from '../Intersection';
+import usePokemonListData from './hooks/usePokemonListData';
 
-const Pokemons = ({ children }: PropsWithChildren) => {
-  const { fetchStatus, fetchNextPage } = usePokemonsData();
+const PokemonDictionary = ({ children }: PropsWithChildren) => {
+  const { fetchStatus, fetchNextPage } = usePokemonListData();
 
   const action = () => {
     if (fetchStatus === 'fetching') return;
@@ -15,12 +15,12 @@ const Pokemons = ({ children }: PropsWithChildren) => {
 };
 
 const Pages = () => {
-  const { data } = usePokemonsData();
+  const { data } = usePokemonListData();
 
   return (
     <>
       {data?.pages.map((result, idx) => {
-        return <Pokemons.List key={result.page} idx={idx} />;
+        return <PokemonDictionary.List key={result.page} idx={idx} />;
       })}
     </>
   );
@@ -31,12 +31,12 @@ interface ListProps {
 }
 
 const List = ({ idx }: ListProps) => {
-  const { data } = usePokemonsData();
+  const { data } = usePokemonListData();
   return (
     <>
       {data?.pages[idx].responseData.results.map((pokemon) => {
         return (
-          <Pokemons.Item
+          <PokemonDictionary.Item
             key={pokemon.name}
             name={pokemon.name}
             url={pokemon.url}
@@ -62,8 +62,8 @@ const Item = ({ name, url }: ItemProps) => {
   );
 };
 
-Pokemons.Pages = Pages;
-Pokemons.List = List;
-Pokemons.Item = Item;
+PokemonDictionary.Pages = Pages;
+PokemonDictionary.List = List;
+PokemonDictionary.Item = Item;
 
-export default Pokemons;
+export default PokemonDictionary;

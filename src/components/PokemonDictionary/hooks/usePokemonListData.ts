@@ -3,12 +3,12 @@ import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
 import { pokemonPagenate } from '@/utils/pokemonPagenate';
 
-const usePokemonsData = () => {
+const usePokemonListData = () => {
   const { data, fetchNextPage, fetchStatus } =
-    useInfiniteQuery<PokemonFetchResult>({
+    useInfiniteQuery<PokemonListFetchResult>({
       queryKey: [pokemonKeys.list],
       queryFn: ({ pageParam = 1 }) =>
-        FetchPokemon.pokemons({
+        FetchPokemon.pokemonList({
           params: pokemonPagenate(pageParam as number),
         }),
       initialPageParam: 1,
@@ -20,4 +20,4 @@ const usePokemonsData = () => {
   return { data, fetchStatus, fetchNextPage };
 };
 
-export default usePokemonsData;
+export default usePokemonListData;

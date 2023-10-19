@@ -57,6 +57,7 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/require-await": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
     "prefer-rest-params": "warn",
     "import/order": [
       "error",
