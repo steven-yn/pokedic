@@ -1,11 +1,19 @@
+import { dehydrate, useQuery } from '@tanstack/react-query';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import Image from 'next/image';
+import { pokemonKeys } from '@/const/queries';
+import FetchPokemon from '@/services/FetchPokemon';
 import styles from '@/styles/Home.module.css';
+import createQueryClient from '@/utils/createQueryClient';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const pokemon = useQuery({
+    queryKey: [pokemonKeys.list, 1],
+    queryFn: () => FetchPokemon.pokemons(),
+  });
   return (
     <>
       <Head>
@@ -15,6 +23,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
+        {pokemon.data?.data.results.map((item) => {
+          return (
+            <div key={item.name}>
+              <p>{item.name}</p>
+            </div>
+          );
+        })}
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
@@ -112,3 +127,18 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = async () => {
+  const queryClient = createQueryClient();
+
+  await queryClient.fetchQuery({
+    queryKey: [pokemonKeys.list, 1],
+    queryFn: () => FetchPokemon.pokemons(),
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
