@@ -5,18 +5,21 @@ import FetchPokemon from '@/services/FetchPokemon';
 
 const usePokemonDetailData = () => {
   const router = useRouter();
+  const { id } = router.query;
+  const pathParam = Array.isArray(id) ? id.join('') : id || '';
+
   const { data } = useQuery({
     queryKey: [pokemonKeys.detail],
     queryFn: () => {
-      const { id } = router.query;
-
       return FetchPokemon.pokemon({
-        pathParam: Array.isArray(id) ? id.join('') : id,
+        pathParam: pathParam,
       });
     },
   });
 
-  return { data };
+  return {
+    data,
+  };
 };
 
 export default usePokemonDetailData;

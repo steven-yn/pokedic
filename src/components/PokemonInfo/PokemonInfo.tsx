@@ -1,8 +1,12 @@
 import Image from 'next/image';
 import React, { PropsWithChildren } from 'react';
 
-const PokemonInfo = ({ children }: PropsWithChildren) => {
-  return <main>{children}</main>;
+interface Props {
+  className?: string;
+}
+
+const PokemonInfo = ({ children, className }: PropsWithChildren<Props>) => {
+  return <main className={className}>{children}</main>;
 };
 
 const Title = ({ children }: PropsWithChildren) => {

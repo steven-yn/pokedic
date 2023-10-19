@@ -27,6 +27,7 @@ class FetchPokemon extends FetchCore {
           `${this.speciesResource}/${pathParam}`,
           {
             method: 'GET',
+            init,
           },
         ).then((species) => {
           return {
@@ -49,7 +50,10 @@ class FetchPokemon extends FetchCore {
     };
   };
 
-  public pokemon = async ({ pathParam, init }: PokemonRequest) => {
+  public pokemon = async ({
+    pathParam,
+    init,
+  }: PokemonRequest): Promise<PokemonFetchResult> => {
     const response = await this.request<PokemonResponse, undefined>(
       `${this.resource}/${pathParam || Number(0)}`,
       {
@@ -58,7 +62,24 @@ class FetchPokemon extends FetchCore {
       },
     );
 
-    return response;
+    const resultsWithKoNames = await this.request<
+      PokemonSpeciesResponse,
+      undefined
+    >(`${this.speciesResource}/${pathParam}`, {
+      method: 'GET',
+    });
+
+    const koNames = resultsWithKoNames.responseData.names?.filter(
+      (name) => name.language.name === 'ko',
+    );
+
+    return {
+      ...response,
+      responseData: {
+        ...response.responseData,
+        koNames,
+      },
+    };
   };
 }
 

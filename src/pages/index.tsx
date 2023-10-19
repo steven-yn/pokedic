@@ -1,4 +1,3 @@
-import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import usePokemonListData from '@/components/PokemonDictionary/hooks/usePokemonListData';
 import PokemonDictionary from '@/components/PokemonDictionary/PokemonDictionary';
@@ -6,8 +5,7 @@ import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
 import commonServerSiderProps from '@/utils/commonServerSiderProps';
 import { pokemonPagenate } from '@/utils/pokemonPagenate';
-
-const inter = Inter({ subsets: ['latin'] });
+import { inter } from './_app';
 
 const PokemonList = () => {
   const { data } = usePokemonListData();
@@ -22,18 +20,16 @@ const PokemonList = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${inter.className}`}>
-        <PokemonDictionary>
-          {data.pages.map((result, idx) => {
-            return (
-              <PokemonDictionary.List
-                key={result.responseData.results[idx].name}
-                results={result.responseData.results}
-              />
-            );
-          })}
-        </PokemonDictionary>
-      </main>
+      <PokemonDictionary className={inter.className}>
+        {data.pages.map((result, idx) => {
+          return (
+            <PokemonDictionary.List
+              key={result.responseData.results[idx].name}
+              results={result.responseData.results}
+            />
+          );
+        })}
+      </PokemonDictionary>
     </>
   );
 };

@@ -1,10 +1,10 @@
 export const pokemonPagenate = (page: number) => {
   return {
-    limit: page * 100,
+    limit: 100,
     offset: (page - 1) * 100,
   };
 };
 
 export const getPokemonPage = (offset: number) => {
-  return Math.ceil(offset / 100) + 1;
+  return Math.trunc(offset / 100) + 1;
 };

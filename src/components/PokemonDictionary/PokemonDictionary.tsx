@@ -4,7 +4,14 @@ import { POKEMON_API_ENDPOINT } from '@/const';
 import Intersection from '../Intersection';
 import usePokemonListData from './hooks/usePokemonListData';
 
-const PokemonDictionary = ({ children }: PropsWithChildren) => {
+interface Props {
+  className?: string;
+}
+
+const PokemonDictionary = ({
+  children,
+  className,
+}: PropsWithChildren<Props>) => {
   const { fetchStatus, fetchNextPage } = usePokemonListData();
 
   const action = () => {
@@ -12,7 +19,11 @@ const PokemonDictionary = ({ children }: PropsWithChildren) => {
     fetchNextPage();
   };
 
-  return <Intersection action={action}>{children}</Intersection>;
+  return (
+    <main className={className}>
+      <Intersection action={action}>{children}</Intersection>
+    </main>
+  );
 };
 
 interface ListProps {

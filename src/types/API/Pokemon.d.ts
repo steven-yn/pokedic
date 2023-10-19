@@ -59,6 +59,18 @@ interface PokemonResponse {
   past_types: PokemonTypePast[];
 }
 
+interface PokemonResponseWithKoName extends PokemonResponse {
+  koNames: PokemonName[] | undefined;
+}
+interface PokemonFetchResult {
+  status: number;
+  statusText: string;
+  ok: boolean;
+  type: ResponseType;
+  url: string;
+  responseData: PokemonResponseWithKoName;
+}
+
 interface PokemonAbility {
   is_hidden: boolean;
   slot: number;
