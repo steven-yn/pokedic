@@ -1,22 +1,27 @@
-import { defaultPokemonsParams } from '@/const';
+import { getPokemonPage, pokemonPagenate } from '@/utils/pokemonPagenate';
 import FetchCore from './FetchCore';
 import { pokemonFetchOptions } from './fetchOptions';
 
 class FetchPokemon extends FetchCore {
   private resource = '/pokemon';
 
-  public pokemons = async (payload?: PokemonRequest) => {
+  public pokemons = async (
+    payload?: PokemonRequest,
+  ): Promise<PokemonFetchResult> => {
     const { init, params } = payload || {};
     const response = await this.request<PokemonsResponse, ListParams>(
       this.resource,
       {
         method: 'GET',
         init,
-        params: params || defaultPokemonsParams,
+        params: params || pokemonPagenate(1),
       },
     );
 
-    return response;
+    return {
+      ...response,
+      page: getPokemonPage(params?.offset || 1),
+    };
   };
 }
 

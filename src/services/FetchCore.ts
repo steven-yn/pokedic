@@ -41,7 +41,7 @@ export default class FetchCore {
         ok,
         type,
         url,
-        data: (await response.json()) as T,
+        responseData: (await response.json()) as T,
       };
 
       if (!ok || !status || !url) {

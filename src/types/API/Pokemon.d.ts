@@ -18,3 +18,13 @@ interface PokemonRequest {
   params: ListParams;
   init?: FetchRequestInit;
 }
+
+interface PokemonFetchResult {
+  status: number;
+  statusText: string;
+  ok: boolean;
+  type: ResponseType;
+  url: string;
+  responseData: PokemonsResponse;
+  page: number;
+}

@@ -13,8 +13,3 @@ export const queryClientOptions: QueryObserverOptions = {
   refetchInterval: false,
   retry: 2,
 };
-
-export const defaultPokemonsParams: ListParams = {
-  limit: 20,
-  offset: 20,
-};
