@@ -42,7 +42,6 @@
     "prettier/prettier": [
       "error",
       {
-        "parser": "flow",
         "endOfLine": "auto"
       }
     ],
