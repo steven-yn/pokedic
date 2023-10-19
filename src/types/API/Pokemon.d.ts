@@ -14,7 +14,9 @@ interface PokemonListResponse {
   results: PokemonListResultItem[];
 }
 
-interface PokemonListResultItem extends NamedAPIResource {}
+interface PokemonListResultItem extends NamedAPIResource {
+  koNames: PokemonName[] | undefined;
+}
 
 interface PokemonListRequest {
   params: PaginationParams;
@@ -47,7 +49,7 @@ interface PokemonResponse {
   abilities: PokemonAbility[];
   forms: PokemonForm[];
   game_indices: PokemonGameIndex[];
-  held_items: PokemonHeldItemVersion[];
+  held_items: PokemonHeldItem[];
   location_area_encounters: string;
   moves: PokemonMove[];
   species: PokemonSpecies;
@@ -68,6 +70,11 @@ interface PokemonForm extends NamedAPIResource {}
 interface PokemonGameIndex {
   game_index: number;
   version: NamedAPIResource;
+}
+
+interface PokemonHeldItem {
+  item: NamedAPIResource;
+  version_details: PokemonHeldItemVersion[];
 }
 
 interface PokemonHeldItemVersion {
@@ -113,4 +120,13 @@ interface PokemonType {
 interface PokemonTypePast {
   generation: NamedAPIResource;
   types: PokemonType[];
+}
+
+interface PokemonSpeciesResponse {
+  names?: PokemonName[];
+}
+
+interface PokemonName {
+  language: NamedAPIResource;
+  name: string;
 }

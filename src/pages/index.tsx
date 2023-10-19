@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
+import usePokemonListData from '@/components/PokemonDictionary/hooks/usePokemonListData';
 import PokemonDictionary from '@/components/PokemonDictionary/PokemonDictionary';
 import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
@@ -9,6 +10,10 @@ import { pokemonPagenate } from '@/utils/pokemonPagenate';
 const inter = Inter({ subsets: ['latin'] });
 
 const PokemonList = () => {
+  const { data } = usePokemonListData();
+
+  if (!data) return null;
+
   return (
     <>
       <Head>
@@ -19,7 +24,14 @@ const PokemonList = () => {
       </Head>
       <main className={`${inter.className}`}>
         <PokemonDictionary>
-          <PokemonDictionary.Pages />
+          {data.pages.map((result, idx) => {
+            return (
+              <PokemonDictionary.List
+                key={result.responseData.results[idx].name}
+                results={result.responseData.results}
+              />
+            );
+          })}
         </PokemonDictionary>
       </main>
     </>

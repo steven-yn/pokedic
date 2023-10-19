@@ -13,3 +13,5 @@ export const queryClientOptions: QueryObserverOptions = {
   refetchInterval: false,
   retry: 2,
 };
+
+export const POKEMON_API_ENDPOINT = 'https://pokeapi.co/api/v2/pokemon/';

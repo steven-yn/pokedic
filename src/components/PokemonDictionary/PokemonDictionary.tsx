@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
+import { POKEMON_API_ENDPOINT } from '@/const';
 import Intersection from '../Intersection';
 import usePokemonListData from './hooks/usePokemonListData';
 
@@ -14,31 +15,18 @@ const PokemonDictionary = ({ children }: PropsWithChildren) => {
   return <Intersection action={action}>{children}</Intersection>;
 };
 
-const Pages = () => {
-  const { data } = usePokemonListData();
-
-  return (
-    <>
-      {data?.pages.map((result, idx) => {
-        return <PokemonDictionary.List key={result.page} idx={idx} />;
-      })}
-    </>
-  );
-};
-
 interface ListProps {
-  idx: number;
+  results: PokemonListResultItem[];
 }
 
-const List = ({ idx }: ListProps) => {
-  const { data } = usePokemonListData();
+const List = ({ results }: ListProps) => {
   return (
     <>
-      {data?.pages[idx].responseData.results.map((pokemon) => {
+      {results.map((pokemon) => {
         return (
           <PokemonDictionary.Item
             key={pokemon.name}
-            name={pokemon.name}
+            name={pokemon.koNames ? pokemon.koNames[0].name : pokemon.name}
             url={pokemon.url}
           />
         );
@@ -53,7 +41,7 @@ interface ItemProps {
 }
 
 const Item = ({ name, url }: ItemProps) => {
-  const id = url.split('https://pokeapi.co/api/v2/pokemon/')[1];
+  const id = url.split(POKEMON_API_ENDPOINT)[1];
 
   return (
     <div>
@@ -62,7 +50,6 @@ const Item = ({ name, url }: ItemProps) => {
   );
 };
 
-PokemonDictionary.Pages = Pages;
 PokemonDictionary.List = List;
 PokemonDictionary.Item = Item;
 
