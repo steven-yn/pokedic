@@ -12,34 +12,28 @@ export default function commonServerSiderProps<P>(resources: Array<Params<P>>) {
     const queryClient = createQueryClient();
 
     await Promise.all(
-      resources.map(async ({ fetchMode, key, callback }) => {
+      resources.map(({ fetchMode, key, callback }) => {
         switch (fetchMode) {
           case 'INFINITE': {
-            await queryClient.fetchInfiniteQuery({
+            return queryClient.fetchInfiniteQuery({
               queryKey: key,
               queryFn: callback,
               initialPageParam: 1,
             });
-
-            break;
           }
 
           case 'NORMAL': {
-            await queryClient.fetchQuery({
+            return queryClient.fetchQuery({
               queryKey: key,
               queryFn: callback,
             });
-
-            break;
           }
 
           default: {
-            await queryClient.fetchQuery({
+            return queryClient.fetchQuery({
               queryKey: key,
               queryFn: callback,
             });
-
-            break;
           }
         }
       }),
