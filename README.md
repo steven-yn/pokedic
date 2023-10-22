@@ -46,6 +46,11 @@
 
 | 상태관리 라이브러리 : React-Query (Server Side, Data), Zustand (Client Side, Interaction)
 
+- 두 라이브러리를 사용한 이유는, React-Query 만으로 클라이언트 사이드 에서 유저 Interaction 을 전역 상태로 관리할수 있는 방법이 없기 때문입니다.
+- Zustand 는 번들시 사이즈가 3KB 로 매우 작으며, 보일러 플레이트가 적어 빠르게 개발할수 있다는 점 등이 장점이라고 생각합니다.
+- React-Query 는 서버사이드 에서의 API Prefetch 및 캐싱을 쉽게 관리해주며, 데이터가 fetching 중이거나 loading 중인 상태를 관리해주어 컴포넌트 단 개발이 편리하다는 장점이 있다고 생각합니다.
+- 위와 같은 이유로 두개의 상태 관리 라이브러리를 사용하였습니다.
+
 ### 가산점 항목
 
 | 캐시
