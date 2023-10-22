@@ -5,11 +5,3 @@ export const pokemonFetchOptions: FetchCoreOptions = {
     Accept: '*/*',
   },
 };
-
-// export const apiRouteFetchOptions: FetchCoreOptions = {
-//   baseURL: 'http://localhost:3000',
-//   headers: {
-//     'Content-Type': 'application/json',
-//     Accept: '*/*',
-//   },
-// };
