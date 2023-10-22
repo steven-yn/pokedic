@@ -55,24 +55,13 @@ const PokemonDetail = () => {
           획득 가능 경험치 :&nbsp;
           {data.responseData.base_experience}
         </PokemonInfo.Paragraph>
-
-        <PokemonInfo.Preformatted>
-          가진 아이템 :&nbsp;
-          <code>{JSON.stringify(data.responseData.held_items, null, 2)}</code>
-        </PokemonInfo.Preformatted>
-        <PokemonInfo.Paragraph>
-          past_types :&nbsp;
-          {data.responseData.past_types
-            .map((type) => type.types.map((elem) => elem.type.name))
-            .join(', ')}
-        </PokemonInfo.Paragraph>
         <PokemonInfo.Paragraph>
           기술 :&nbsp;
           {data.responseData.moves.map((move) => move.move.name).join(', ')}
         </PokemonInfo.Paragraph>
-        <PokemonInfo.Preformatted>
-          {/* <code>{JSON.stringify(data.responseData.moves, null, 2)}</code> */}
-        </PokemonInfo.Preformatted>
+        {/* <PokemonInfo.Preformatted>
+          <code>{JSON.stringify(data.responseData.moves, null, 2)}</code>
+        </PokemonInfo.Preformatted> */}
         <PokemonInfo.Paragraph>
           등장 시리즈 (포켓몬 게임) :&nbsp;
           {data.responseData.game_indices

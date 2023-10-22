@@ -14,4 +14,6 @@ export const queryClientOptions: QueryObserverOptions = {
   retry: 2,
 };
 
+export const PAGE_LIMIT = 30;
+
 export const POKEMON_API_ENDPOINT = 'https://pokeapi.co/api/v2/pokemon/';

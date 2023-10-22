@@ -1,4 +1,4 @@
-import { POKEMON_API_ENDPOINT } from '@/const';
+import { PAGE_LIMIT, POKEMON_API_ENDPOINT } from '@/const';
 import { getPokemonPage, pokemonPagenate } from '@/utils/pokemonPagenate';
 import FetchCore from './FetchCore';
 import { pokemonFetchOptions } from './fetchOptions';
@@ -46,7 +46,7 @@ class FetchPokemon extends FetchCore {
         ...response.responseData,
         results: resultsWithKoNames,
       },
-      page: getPokemonPage(params?.offset || 1),
+      page: getPokemonPage(params?.offset || 1, params?.limit || PAGE_LIMIT),
     };
   };
 

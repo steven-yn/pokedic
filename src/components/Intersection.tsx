@@ -2,9 +2,16 @@ import React, { PropsWithChildren, useEffect, useRef } from 'react';
 
 interface Props {
   action: () => void;
+  isLastPage?: boolean;
 }
 
-const Intersection = ({ children, action }: PropsWithChildren<Props>) => {
+const Intersection = ({
+  children,
+  action,
+  isLastPage,
+}: PropsWithChildren<Props>) => {
+  console.log(isLastPage, 'isLastPage');
+
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,7 +35,7 @@ const Intersection = ({ children, action }: PropsWithChildren<Props>) => {
   return (
     <>
       {children}
-      <div ref={observerRef} style={{ height: '10px' }} />
+      {!isLastPage && <div ref={observerRef} style={{ height: '10px' }} />}
     </>
   );
 };

@@ -12,16 +12,19 @@ const PokemonDictionary = ({
   children,
   className,
 }: PropsWithChildren<Props>) => {
-  const { fetchStatus, fetchNextPage } = usePokemonListData();
+  const { fetchStatus, fetchNextPage, isLastPage } = usePokemonListData();
 
   const action = () => {
-    if (fetchStatus === 'fetching') return;
+    if (fetchStatus === 'fetching' && isLastPage) return;
     fetchNextPage();
   };
 
   return (
     <main className={className}>
-      <Intersection action={action}>{children}</Intersection>
+      <Intersection action={action} isLastPage={isLastPage}>
+        {children}
+      </Intersection>
+      {fetchStatus === 'fetching' && <div>로딩중...</div>}
     </main>
   );
 };
@@ -52,11 +55,13 @@ interface ItemProps {
 }
 
 const Item = ({ name, url }: ItemProps) => {
-  const id = url.split(POKEMON_API_ENDPOINT)[1];
+  const id = url.split(POKEMON_API_ENDPOINT)[1].replace('/', '');
 
   return (
-    <div>
-      <Link href={`/${id}`}>{name}</Link>
+    <div style={{ margin: '30px 0' }}>
+      <Link href={`/${id}`}>
+        {id}.{name}
+      </Link>
     </div>
   );
 };
