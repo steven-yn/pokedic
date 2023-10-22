@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
 import getPokemonIdForUrl from '@/utils/getPokemonIdForUrl';
-import Intersection from '../Intersection';
-import usePokemonListData from './hooks/usePokemonListData';
+import usePokemonListData from '../../hooks/usePokemonListData';
+import Intersection from '../common/Intersection';
 
 interface Props {
   className?: string;

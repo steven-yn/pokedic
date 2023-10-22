@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
-import usePokemonListData from '../PokemonDictionary/hooks/usePokemonListData';
+import usePokemonListData from '../../hooks/usePokemonListData';
 import ExternalMeta from './ExternalMeta';
 import ResourceLink from './ResourceLink';
 

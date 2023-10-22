@@ -1,15 +1,17 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { pokemonKeys } from '@/const/queries';
-import FetchPokemon from '@/services/FetchPokemon';
+import FetchPokemon from '@/services/fetch/FetchPokemon';
 import betweenValues from '@/utils/betweenValues';
-import { pagePerItems, pokemonPagenate } from '@/utils/pokemonPagenate';
+import { pagePerItems } from '@/utils/itemsCalculate';
+import { pokemonPagenate } from '@/utils/pokemonPagenate';
 import stringToNumber from '@/utils/stringToNumber';
 
 const usePokemonListData = () => {
   const { query } = useRouter();
   const startNum = stringToNumber(query.start);
   const endNum = stringToNumber(query.end);
+
   const { data, fetchNextPage, fetchStatus } =
     useInfiniteQuery<PokemonListFetchResult>({
       queryKey: [pokemonKeys.list],

@@ -60,10 +60,6 @@ const Paragraph = ({ children }: PropsWithChildren) => {
   return <p>{children}</p>;
 };
 
-const Preformatted = ({ children }: PropsWithChildren) => {
-  return <pre>{children}</pre>;
-};
-
 interface EvolutionProps {
   chainLink?: PokemonChainLink;
 }
@@ -88,7 +84,6 @@ const Evolution = ({ chainLink }: EvolutionProps) => {
 PokemonInfo.Title = Title;
 PokemonInfo.Profile = Profile;
 PokemonInfo.Paragraph = Paragraph;
-PokemonInfo.Preformatted = Preformatted;
 PokemonInfo.Evolution = Evolution;
 PokemonInfo.PokeImage = PokeImage;
 

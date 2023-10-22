@@ -7,7 +7,7 @@ import type { AppProps } from 'next/app';
 import { Inter } from 'next/font/google';
 import Head from 'next/head';
 import { useState } from 'react';
-import createQueryClient from '@/utils/createQueryClient';
+import createQueryClient from '@/services/createQueryClient';
 
 export interface PageProps {
   dehydratedState: DehydratedState;

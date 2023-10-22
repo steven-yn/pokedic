@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { pokemonKeys } from '@/const/queries';
-import FetchPokemon from '@/services/FetchPokemon';
+import FetchPokemon from '@/services/fetch/FetchPokemon';
 
 const usePokemonDetailData = () => {
   const router = useRouter();

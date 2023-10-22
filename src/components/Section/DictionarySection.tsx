@@ -1,6 +1,6 @@
 import React from 'react';
 import { inter } from '@/pages/_app';
-import usePokemonListData from '../PokemonDictionary/hooks/usePokemonListData';
+import usePokemonListData from '../../hooks/usePokemonListData';
 import PokemonDictionary from '../PokemonDictionary/PokemonDictionary';
 
 const DictionarySection = () => {

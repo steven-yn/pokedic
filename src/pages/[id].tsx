@@ -3,8 +3,8 @@ import React from 'react';
 import DetailPageHead from '@/components/meta/DetailPageHead';
 import DetailSection from '@/components/Section/DetailSection';
 import { pokemonKeys } from '@/const/queries';
-import FetchPokemon from '@/services/FetchPokemon';
-import commonServerSiderProps from '@/utils/commonServerSiderProps';
+import commonServerSiderProps from '@/services/commonServerSiderProps';
+import FetchPokemon from '@/services/fetch/FetchPokemon';
 import { PageProps } from './_app';
 
 const PokemonDetail = ({ url }: PageProps) => {

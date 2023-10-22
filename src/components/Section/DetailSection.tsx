@@ -1,6 +1,6 @@
 import React from 'react';
 import { inter } from '@/pages/_app';
-import usePokemonDetailData from '../PokemonInfo/hooks/usePokemonDetailData';
+import usePokemonDetailData from '../../hooks/usePokemonDetailData';
 import PokemonInfo from '../PokemonInfo/PokemonInfo';
 
 const DetailSection = () => {
