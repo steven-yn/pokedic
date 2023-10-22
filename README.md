@@ -27,7 +27,7 @@
   |---------- fetch                   <- fetch 관련 클래스와 API 호출 클래스
   - store                             <- zustand store
   - types                             <- type definition
-  |------- API                       <- PokeAPI 타입정의
+  |------- API                        <- PokeAPI 타입정의
 </pre>
 
 ### 구현 사항
