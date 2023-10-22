@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import ResourceLink from '@/components/meta/ResourceLink';
 import usePokemonListData from '@/components/PokemonDictionary/hooks/usePokemonListData';
 import DictionarySection from '@/components/Section/DictionarySection';
 import SearchSection from '@/components/Section/SearchSection';
@@ -22,6 +23,8 @@ const PokemonList = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <ResourceLink />
+      <h1>POKEDIC</h1>
       <SearchSection />
       <DictionarySection />
     </>

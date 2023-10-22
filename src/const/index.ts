@@ -15,4 +15,6 @@ export const queryClientOptions: QueryObserverOptions = {
 };
 
 export const PAGE_LIMIT = 30;
-export const POKEMON_LIST_ENDPOINT = 'https://pokeapi.co/api/v2/pokemon';
+export const POKEAPI_DOMAIN = 'https://pokeapi.co';
+export const POKEMON_LIST_ENDPOINT = `${POKEAPI_DOMAIN}/api/v2/pokemon`;
+export const IMAGE_SIZE = 128;

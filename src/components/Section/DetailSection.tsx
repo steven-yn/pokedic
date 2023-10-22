@@ -14,7 +14,13 @@ const DetailSection = () => {
         {data.responseData.id}.&nbsp;
         {data.responseData.koNames[0].name || data.responseData.name || ''}
       </PokemonInfo.Title>
-      <PokemonInfo.Profile sprites={data.responseData.sprites} />
+      <PokemonInfo.Profile
+        sprites={data.responseData.sprites}
+        name={data.responseData.koNames[0].name}
+      />
+      <PokemonInfo.Paragraph>
+        {data.responseData.koDescription || ''}
+      </PokemonInfo.Paragraph>
       <PokemonInfo.Paragraph>
         무게 : {data.responseData.weight}hg
       </PokemonInfo.Paragraph>

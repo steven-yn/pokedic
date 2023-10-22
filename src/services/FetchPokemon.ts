@@ -68,7 +68,7 @@ class FetchPokemon extends FetchCore {
     pathParam,
     init,
   }: PokemonRequest): Promise<PokemonFetchResult> => {
-    const response = this.request<PokemonResponse, undefined>(
+    const pokemonRequest = this.request<PokemonResponse, undefined>(
       `${this.resource}/${pathParam || Number(0)}`,
       {
         method: 'GET',
@@ -76,18 +76,27 @@ class FetchPokemon extends FetchCore {
       },
     );
 
-    const speciesResource = this.request<PokemonSpeciesResponse, undefined>(
+    const speciesRequest = this.request<PokemonSpeciesResponse, undefined>(
       `${this.speciesResource}/${pathParam}`,
       {
         method: 'GET',
       },
     );
 
-    const pokemonWithSpecies = await Promise.all([response, speciesResource]);
+    const pokemonWithSpecies = await Promise.all([
+      pokemonRequest,
+      speciesRequest,
+    ]);
 
     const koNames = pokemonWithSpecies[1].responseData.names?.filter(
       (name) => name.language.name === 'ko',
     );
+
+    const koDescription =
+      pokemonWithSpecies[1].responseData.flavor_text_entries
+        ?.filter((description) => description.language.name === 'ko')
+        .map((description) => description.flavor_text.replace(/\n/g, ' '))
+        .join(' ') || '';
 
     let evolutionChain: PokemonChainLink | null = null;
 
@@ -111,6 +120,7 @@ class FetchPokemon extends FetchCore {
       responseData: {
         ...pokemonWithSpecies[0].responseData,
         koNames,
+        koDescription,
         evolutionChain,
       },
     };

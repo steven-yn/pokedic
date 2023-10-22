@@ -42,6 +42,7 @@ export default function commonServerSiderProps(resources: Array<Params>) {
 
     return {
       props: {
+        url: `${context.req.headers.host}${context.req.url}`,
         dehydratedState: dehydrate(queryClient),
       },
     };

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import React, { PropsWithChildren } from 'react';
+import { IMAGE_SIZE } from '@/const';
 import getPokemonIdForUrl from '@/utils/getPokemonIdForUrl';
 
 interface Props {
@@ -14,47 +15,44 @@ const Title = ({ children }: PropsWithChildren) => {
   return <h1>{children}</h1>;
 };
 
-interface ImageProps {
+interface ProfileProps {
   sprites: PokemonSprites;
+  name: string;
 }
 
-const Profile = ({ sprites }: PropsWithChildren<ImageProps>) => {
+const Profile = ({ sprites, name }: PropsWithChildren<ProfileProps>) => {
   return (
     <>
       {sprites.front_default && (
-        <Image
-          src={sprites.front_default}
-          width={128}
-          height={128}
-          alt={sprites.front_default}
-        />
+        <PokemonInfo.PokeImage url={sprites.front_default} name={name} />
       )}
       {sprites.back_default && (
-        <Image
-          src={sprites.back_default}
-          width={128}
-          height={128}
-          alt={sprites.back_default}
-        />
+        <PokemonInfo.PokeImage url={sprites.back_default} name={name} />
       )}
-
       {sprites.front_shiny && (
-        <Image
-          src={sprites.front_shiny}
-          width={128}
-          height={128}
-          alt={sprites.front_shiny}
-        />
+        <PokemonInfo.PokeImage url={sprites.front_shiny} name={name} />
       )}
       {sprites.back_shiny && (
-        <Image
-          src={sprites.back_shiny}
-          width={128}
-          height={128}
-          alt={sprites.back_shiny}
-        />
+        <PokemonInfo.PokeImage url={sprites.back_shiny} name={name} />
       )}
     </>
+  );
+};
+
+interface PokeImageProps {
+  url: string;
+  name: string;
+}
+
+const PokeImage = ({ url, name }: PokeImageProps) => {
+  return (
+    <Image
+      src={url}
+      width={IMAGE_SIZE}
+      height={IMAGE_SIZE}
+      alt={name}
+      priority
+    />
   );
 };
 
@@ -92,5 +90,6 @@ PokemonInfo.Profile = Profile;
 PokemonInfo.Paragraph = Paragraph;
 PokemonInfo.Preformatted = Preformatted;
 PokemonInfo.Evolution = Evolution;
+PokemonInfo.PokeImage = PokeImage;
 
 export default PokemonInfo;

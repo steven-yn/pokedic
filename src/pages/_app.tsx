@@ -10,6 +10,7 @@ import createQueryClient from '@/utils/createQueryClient';
 
 export interface PageProps {
   dehydratedState: DehydratedState;
+  url: string;
 }
 
 type DehydratedAppProps = AppProps<PageProps>;

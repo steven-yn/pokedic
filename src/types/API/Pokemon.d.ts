@@ -68,6 +68,7 @@ interface PokemonResponse {
 interface PokemonResponseWithAdditionalResource extends PokemonResponse {
   koNames: PokemonName[] | undefined;
   evolutionChain: PokemonChainLink | null;
+  koDescription: string | undefined;
 }
 interface PokemonFetchResult {
   status: number;
@@ -144,6 +145,13 @@ interface PokemonTypePast {
 interface PokemonSpeciesResponse {
   names?: PokemonName[];
   evolution_chain?: NamedAPIResource;
+  flavor_text_entries?: PokemonFlavorText[];
+}
+
+interface PokemonFlavorText {
+  flavor_text: string;
+  language: NamedAPIResource;
+  version: NamedAPIResource;
 }
 
 interface PokemonName {
