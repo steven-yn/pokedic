@@ -1,0 +1,6 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Example Sitemap from Next.js Official Documents
+Sitemap: https://acme.com/sitemap.xml

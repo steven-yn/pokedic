@@ -16,9 +16,7 @@ const DetailPageHead = ({ url }: DetailPageProps) => {
   const title = `포켓몬 도감 - ${
     data.responseData.koNames[0].name || ''
   }의 정보`;
-
   const description = data.responseData.koDescription || '';
-
   const siteImg = data.responseData.sprites.front_default;
 
   return (
@@ -26,7 +24,7 @@ const DetailPageHead = ({ url }: DetailPageProps) => {
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <link rel="canonical" href={url}></link>
+        <link rel="canonical" href={url} />
       </Head>
       <ExternalMeta
         title={title}
