@@ -30,7 +30,6 @@ interface PokemonListFetchResult {
   type: ResponseType;
   url: string;
   responseData: PokemonListResponse;
-  page: number;
 }
 
 interface PokemonRequest {
@@ -59,8 +58,9 @@ interface PokemonResponse {
   past_types: PokemonTypePast[];
 }
 
-interface PokemonResponseWithKoName extends PokemonResponse {
+interface PokemonResponseWithAdditionalResource extends PokemonResponse {
   koNames: PokemonName[] | undefined;
+  evolutionChain: PokemonChainLink;
 }
 interface PokemonFetchResult {
   status: number;
@@ -68,7 +68,7 @@ interface PokemonFetchResult {
   ok: boolean;
   type: ResponseType;
   url: string;
-  responseData: PokemonResponseWithKoName;
+  responseData: PokemonResponseWithAdditionalResource;
 }
 
 interface PokemonAbility {
@@ -136,9 +136,44 @@ interface PokemonTypePast {
 
 interface PokemonSpeciesResponse {
   names?: PokemonName[];
+  evolution_chain?: NamedAPIResource;
 }
 
 interface PokemonName {
   language: NamedAPIResource;
   name: string;
+}
+
+interface PokemonEvolutionChainResponse {
+  id: 7;
+  baby_trigger_item: NamedAPIResource | null;
+  chain: PokemonChainLink;
+}
+
+interface PokemonChainLink {
+  is_baby: boolean;
+  species: NamedAPIResource;
+  evolution_details: PokemonEvolutionDetail[];
+  evolves_to: PokemonChainLink[];
+}
+
+interface PokemonEvolutionDetail {
+  item: NamedAPIResource | null;
+  trigger: NamedAPIResource;
+  gender: number | null;
+  held_item: NamedAPIResource | null;
+  known_move: NamedAPIResource | null;
+  known_move_type: NamedAPIResource | null;
+  location: NamedAPIResource | null;
+  min_level: number | null;
+  min_happiness: number | null;
+  min_beauty: number | null;
+  min_affection: number | null;
+  needs_overworld_rain: boolean;
+  party_species: NamedAPIResource | null;
+  party_type: NamedAPIResource | null;
+  relative_physical_stats: number | null;
+  time_of_day: string;
+  trade_species: NamedAPIResource | null;
+  turn_upside_down: boolean;
 }

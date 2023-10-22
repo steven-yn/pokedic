@@ -3,9 +3,12 @@ import { useRouter } from 'next/router';
 import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
 import { pagePerItems, pokemonPagenate } from '@/utils/pokemonPagenate';
+import stringToNumber from '@/utils/stringToNumber';
 
 const usePokemonListData = () => {
   const { query } = useRouter();
+  const startNum = stringToNumber(query.start);
+  const endNum = stringToNumber(query.end);
   const { data, fetchNextPage, fetchStatus } =
     useInfiniteQuery<PokemonListFetchResult>({
       queryKey: [pokemonKeys.list],
@@ -13,22 +16,21 @@ const usePokemonListData = () => {
         return FetchPokemon.pokemonList({
           params: pokemonPagenate(
             pageParam as number,
-            Number(query.start),
-            Number(query.end),
+            startNum || undefined,
+            endNum || undefined,
           ),
         });
       },
       initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        return lastPage.responseData.next === null ? null : lastPage.page + 1;
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.responseData.next === null ? null : allPages.length + 1;
       },
     });
 
   const currentPage = data && data.pages.length;
   const isLastPage =
     typeof currentPage !== 'undefined' &&
-    Number(query.end) <=
-      currentPage * pagePerItems(Number(query.start), Number(query.end));
+    endNum - startNum + 1 <= currentPage * pagePerItems(startNum, endNum);
 
   return { data, fetchStatus, fetchNextPage, isLastPage };
 };

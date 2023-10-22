@@ -10,8 +10,6 @@ const Intersection = ({
   action,
   isLastPage,
 }: PropsWithChildren<Props>) => {
-  console.log(isLastPage, 'isLastPage');
-
   const observerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

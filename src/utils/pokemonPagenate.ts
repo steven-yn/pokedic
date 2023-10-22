@@ -5,18 +5,23 @@ export const pagePerItems = (start: number, end: number) => {
 };
 
 const restItems = (start: number, end: number) => {
-  //      31      1
-  return end - start + 1 - PAGE_LIMIT;
+  const rest = end - start + 1 - PAGE_LIMIT;
+  if (rest < 0) return 0;
+  return rest;
 };
 
 export const pokemonPagenate = (page: number, start?: number, end?: number) => {
   if (start && end) {
+    // console.log(start, 'start'); // 130
+    // console.log(end, 'end'); // 162
+    // console.log(page, 'page'); // 2
+    // console.log(pagePerItems(start, end), 'pagePerItems'); // 30
+
     const offset = start + (page - 1) * pagePerItems(start, end) - 1;
     const limit =
-      //       30                  30      31
       pagePerItems(start, end) + offset > end
-        ? restItems(start, end) // 1
-        : pagePerItems(start, end); // 30
+        ? restItems(start, end)
+        : pagePerItems(start, end);
 
     return {
       limit,

@@ -1,11 +1,12 @@
-import { PAGE_LIMIT, POKEMON_API_ENDPOINT } from '@/const';
-import { getPokemonPage, pokemonPagenate } from '@/utils/pokemonPagenate';
+import { POKEMON_API_ENDPOINT } from '@/const';
+import { pokemonPagenate } from '@/utils/pokemonPagenate';
 import FetchCore from './FetchCore';
 import { pokemonFetchOptions } from './fetchOptions';
 
 class FetchPokemon extends FetchCore {
   private resource = '/pokemon';
   private speciesResource = '/pokemon-species';
+  private evolutionChainResource = '/evolution-chain';
 
   public pokemonList = async ({
     init,
@@ -39,14 +40,12 @@ class FetchPokemon extends FetchCore {
         });
       }),
     );
-
     return {
       ...response,
       responseData: {
         ...response.responseData,
         results: resultsWithKoNames,
       },
-      page: getPokemonPage(params?.offset || 1, params?.limit || PAGE_LIMIT),
     };
   };
 
@@ -62,22 +61,33 @@ class FetchPokemon extends FetchCore {
       },
     );
 
-    const resultsWithKoNames = await this.request<
-      PokemonSpeciesResponse,
-      undefined
-    >(`${this.speciesResource}/${pathParam}`, {
-      method: 'GET',
-    });
+    const speciesAndEvolutionResponse = await Promise.all([
+      this.request<PokemonSpeciesResponse, undefined>(
+        `${this.speciesResource}/${pathParam}`,
+        {
+          method: 'GET',
+        },
+      ),
+      this.request<PokemonEvolutionChainResponse, undefined>(
+        `${this.evolutionChainResource}/${pathParam}`,
+        {
+          method: 'GET',
+        },
+      ),
+    ]);
 
-    const koNames = resultsWithKoNames.responseData.names?.filter(
+    const koNames = speciesAndEvolutionResponse[0].responseData.names?.filter(
       (name) => name.language.name === 'ko',
     );
+
+    const evolutionChain = speciesAndEvolutionResponse[1].responseData.chain;
 
     return {
       ...response,
       responseData: {
         ...response.responseData,
         koNames,
+        evolutionChain,
       },
     };
   };
