@@ -60,7 +60,7 @@ interface PokemonResponse {
 
 interface PokemonResponseWithAdditionalResource extends PokemonResponse {
   koNames: PokemonName[] | undefined;
-  evolutionChain: PokemonChainLink;
+  evolutionChain: PokemonChainLink | null;
 }
 interface PokemonFetchResult {
   status: number;

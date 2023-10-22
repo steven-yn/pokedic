@@ -12,11 +12,6 @@ const restItems = (start: number, end: number) => {
 
 export const pokemonPagenate = (page: number, start?: number, end?: number) => {
   if (start && end) {
-    // console.log(start, 'start'); // 130
-    // console.log(end, 'end'); // 162
-    // console.log(page, 'page'); // 2
-    // console.log(pagePerItems(start, end), 'pagePerItems'); // 30
-
     const offset = start + (page - 1) * pagePerItems(start, end) - 1;
     const limit =
       pagePerItems(start, end) + offset > end

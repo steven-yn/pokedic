@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
-import { POKEMON_API_ENDPOINT } from '@/const';
+import getPokemonIdForUrl from '@/utils/getPokemonIdForUrl';
 import Intersection from '../Intersection';
 import usePokemonListData from './hooks/usePokemonListData';
 
@@ -55,7 +55,7 @@ interface ItemProps {
 }
 
 const Item = ({ name, url }: ItemProps) => {
-  const id = url.split(POKEMON_API_ENDPOINT)[1].replace('/', '');
+  const id = getPokemonIdForUrl(url);
 
   return (
     <div style={{ margin: '30px 0' }}>

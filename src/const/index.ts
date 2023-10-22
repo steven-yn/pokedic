@@ -15,5 +15,3 @@ export const queryClientOptions: QueryObserverOptions = {
 };
 
 export const PAGE_LIMIT = 30;
-
-export const POKEMON_API_ENDPOINT = 'https://pokeapi.co/api/v2/pokemon/';

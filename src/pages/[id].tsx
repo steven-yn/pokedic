@@ -12,7 +12,6 @@ const PokemonDetail = () => {
   const { data } = usePokemonDetailData();
 
   if (!data || !data.responseData.koNames) return null;
-
   return (
     <>
       <Head>
@@ -59,19 +58,22 @@ const PokemonDetail = () => {
           기술 :&nbsp;
           {data.responseData.moves.map((move) => move.move.name).join(', ')}
         </PokemonInfo.Paragraph>
-        {/* <PokemonInfo.Preformatted>
-          <code>{JSON.stringify(data.responseData.moves, null, 2)}</code>
-        </PokemonInfo.Preformatted> */}
         <PokemonInfo.Paragraph>
           등장 시리즈 (포켓몬 게임) :&nbsp;
           {data.responseData.game_indices
             .map((game) => game.version.name)
             .join(', ')}
         </PokemonInfo.Paragraph>
-        <PokemonInfo.Paragraph>
-          종족 :&nbsp;
-          {data.responseData.species.name}
-        </PokemonInfo.Paragraph>
+        {data.responseData.evolutionChain &&
+          data.responseData.evolutionChain.evolves_to.length > 0 && (
+            <PokemonInfo.Paragraph>
+              진화 단계 :&nbsp;
+              <PokemonInfo.Evolution
+                key={data.responseData.evolutionChain.species.name}
+                chainLink={data.responseData.evolutionChain}
+              />
+            </PokemonInfo.Paragraph>
+          )}
       </PokemonInfo>
     </>
   );

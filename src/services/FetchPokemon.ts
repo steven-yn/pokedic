@@ -1,4 +1,4 @@
-import { POKEMON_API_ENDPOINT } from '@/const';
+import getPokemonIdForUrl from '@/utils/getPokemonIdForUrl';
 import { pokemonPagenate } from '@/utils/pokemonPagenate';
 import FetchCore from './FetchCore';
 import { pokemonFetchOptions } from './fetchOptions';
@@ -23,7 +23,7 @@ class FetchPokemon extends FetchCore {
 
     const resultsWithKoNames = await Promise.all(
       response.responseData.results.map((pokemon) => {
-        const pathParam = pokemon.url.split(POKEMON_API_ENDPOINT)[1];
+        const pathParam = getPokemonIdForUrl(pokemon.url);
         return this.request<PokemonSpeciesResponse, undefined>(
           `${this.speciesResource}/${pathParam}`,
           {
@@ -53,7 +53,7 @@ class FetchPokemon extends FetchCore {
     pathParam,
     init,
   }: PokemonRequest): Promise<PokemonFetchResult> => {
-    const response = await this.request<PokemonResponse, undefined>(
+    const response = this.request<PokemonResponse, undefined>(
       `${this.resource}/${pathParam || Number(0)}`,
       {
         method: 'GET',
@@ -61,31 +61,40 @@ class FetchPokemon extends FetchCore {
       },
     );
 
-    const speciesAndEvolutionResponse = await Promise.all([
-      this.request<PokemonSpeciesResponse, undefined>(
-        `${this.speciesResource}/${pathParam}`,
-        {
-          method: 'GET',
-        },
-      ),
-      this.request<PokemonEvolutionChainResponse, undefined>(
-        `${this.evolutionChainResource}/${pathParam}`,
-        {
-          method: 'GET',
-        },
-      ),
-    ]);
+    const speciesResource = this.request<PokemonSpeciesResponse, undefined>(
+      `${this.speciesResource}/${pathParam}`,
+      {
+        method: 'GET',
+      },
+    );
 
-    const koNames = speciesAndEvolutionResponse[0].responseData.names?.filter(
+    const pokemonWithSpecies = await Promise.all([response, speciesResource]);
+
+    const koNames = pokemonWithSpecies[1].responseData.names?.filter(
       (name) => name.language.name === 'ko',
     );
 
-    const evolutionChain = speciesAndEvolutionResponse[1].responseData.chain;
+    let evolutionChain: PokemonChainLink | null = null;
+
+    if (pokemonWithSpecies[1].responseData.evolution_chain) {
+      const splitedUrl =
+        pokemonWithSpecies[1].responseData.evolution_chain.url.split('/');
+
+      const evolutionChainId = splitedUrl[splitedUrl.length - 2];
+      const evolutionChainResponse = await this.request<
+        PokemonEvolutionChainResponse,
+        undefined
+      >(`${this.evolutionChainResource}/${evolutionChainId}`, {
+        method: 'GET',
+      });
+
+      evolutionChain = evolutionChainResponse.responseData.chain;
+    }
 
     return {
-      ...response,
+      ...pokemonWithSpecies[0],
       responseData: {
-        ...response.responseData,
+        ...pokemonWithSpecies[0].responseData,
         koNames,
         evolutionChain,
       },
