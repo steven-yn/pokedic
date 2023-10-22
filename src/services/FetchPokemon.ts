@@ -1,5 +1,6 @@
 import getPokemonIdForUrl from '@/utils/getPokemonIdForUrl';
 import { pokemonPagenate } from '@/utils/pokemonPagenate';
+import stringToNumber from '@/utils/stringToNumber';
 import FetchCore from './FetchCore';
 import { pokemonFetchOptions } from './fetchOptions';
 
@@ -12,38 +13,52 @@ class FetchPokemon extends FetchCore {
     init,
     params,
   }: PokemonListRequest): Promise<PokemonListFetchResult> => {
-    const response = await this.request<PokemonListResponse, PaginationParams>(
-      this.resource,
-      {
+    const pokemonListWithSpecies = await Promise.all([
+      this.request<PokemonListResponse, PaginationParams>(this.resource, {
         method: 'GET',
         init,
         params: params || pokemonPagenate(1),
-      },
-    );
+      }),
+      this.request<PokemonSpeciesListResponse, undefined>(
+        this.speciesResource,
+        {
+          method: 'GET',
+        },
+      ),
+    ]);
 
     const resultsWithKoNames = await Promise.all(
-      response.responseData.results.map((pokemon) => {
-        const pathParam = getPokemonIdForUrl(pokemon.url);
+      pokemonListWithSpecies[0].responseData.results.map((pokemon) => {
+        const id = getPokemonIdForUrl(pokemon.url);
+
+        if (stringToNumber(id) > pokemonListWithSpecies[1].responseData.count)
+          return pokemon;
+
         return this.request<PokemonSpeciesResponse, undefined>(
-          `${this.speciesResource}/${pathParam}`,
+          `${this.speciesResource}/${id}`,
           {
             method: 'GET',
             init,
           },
-        ).then((species) => {
-          return {
-            ...pokemon,
-            koNames: species.responseData.names?.filter(
-              (name) => name.language.name === 'ko',
-            ),
-          };
-        });
+        )
+          .then((species) => {
+            return {
+              ...pokemon,
+              koNames: species.responseData.names?.filter(
+                (name) => name.language.name === 'ko',
+              ),
+            };
+          })
+          .catch(() => {
+            return pokemon;
+          });
       }),
     );
+
     return {
-      ...response,
+      ...pokemonListWithSpecies[0],
       responseData: {
-        ...response.responseData,
+        ...pokemonListWithSpecies[0].responseData,
         results: resultsWithKoNames,
       },
     };

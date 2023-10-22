@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
+import betweenValues from '@/utils/betweenValues';
 import { pagePerItems, pokemonPagenate } from '@/utils/pokemonPagenate';
 import stringToNumber from '@/utils/stringToNumber';
 
@@ -28,9 +29,13 @@ const usePokemonListData = () => {
     });
 
   const currentPage = data && data.pages.length;
+
   const isLastPage =
     typeof currentPage !== 'undefined' &&
-    endNum - startNum + 1 <= currentPage * pagePerItems(startNum, endNum);
+    endNum > 0 &&
+    startNum > 0 &&
+    betweenValues(startNum, endNum) <=
+      currentPage * pagePerItems(startNum, endNum);
 
   return { data, fetchStatus, fetchNextPage, isLastPage };
 };

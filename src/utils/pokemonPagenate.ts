@@ -1,11 +1,15 @@
 import { PAGE_LIMIT } from '@/const';
+import betweenValues from './betweenValues';
 
 export const pagePerItems = (start: number, end: number) => {
-  return end - start + 1 > PAGE_LIMIT ? PAGE_LIMIT : end - start + 1;
+  if (!start || !end) return PAGE_LIMIT;
+  return betweenValues(start, end) > PAGE_LIMIT
+    ? PAGE_LIMIT
+    : betweenValues(start, end);
 };
 
 const restItems = (start: number, end: number) => {
-  const rest = end - start + 1 - PAGE_LIMIT;
+  const rest = betweenValues(start, end) - PAGE_LIMIT;
   if (rest < 0) return 0;
   return rest;
 };

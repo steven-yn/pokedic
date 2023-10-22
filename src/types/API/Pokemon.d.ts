@@ -32,6 +32,13 @@ interface PokemonListFetchResult {
   responseData: PokemonListResponse;
 }
 
+interface PokemonSpeciesListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: NamedAPIResource[];
+}
+
 interface PokemonRequest {
   pathParam?: number | string;
   init?: FetchRequestInit;

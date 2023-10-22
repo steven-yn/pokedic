@@ -50,7 +50,12 @@ export default class FetchCore {
 
       return result;
     } catch (error) {
-      return Promise.reject(error);
+      return Promise.reject(
+        JSON.stringify({
+          error,
+          message: 'Fetch Error',
+        }),
+      );
     }
   };
 

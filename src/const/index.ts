@@ -11,7 +11,8 @@ export const queryClientOptions: QueryObserverOptions = {
   refetchIntervalInBackground: false,
   refetchOnWindowFocus: false,
   refetchInterval: false,
-  retry: 2,
+  retry: 1,
 };
 
 export const PAGE_LIMIT = 30;
+export const POKEMON_LIST_ENDPOINT = 'https://pokeapi.co/api/v2/pokemon';
