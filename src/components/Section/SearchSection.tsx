@@ -5,9 +5,9 @@ const SearchSection = () => {
   return (
     <NumberFilter>
       도감 번호:
-      <NumberFilter.StartInput />
+      <NumberFilter.StartInput label="시작 번호" />
       ~
-      <NumberFilter.EndInput />
+      <NumberFilter.EndInput label="시작 번호" />
       <NumberFilter.Submit />
     </NumberFilter>
   );
