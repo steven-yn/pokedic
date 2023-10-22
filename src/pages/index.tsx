@@ -1,14 +1,13 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import usePokemonListData from '@/components/PokemonDictionary/hooks/usePokemonListData';
-import PokemonDictionary from '@/components/PokemonDictionary/PokemonDictionary';
+import DictionarySection from '@/components/Section/DictionarySection';
 import SearchSection from '@/components/Section/SearchSection';
 import { pokemonKeys } from '@/const/queries';
 import FetchPokemon from '@/services/FetchPokemon';
 import commonServerSiderProps from '@/utils/commonServerSiderProps';
 import { pokemonPagenate } from '@/utils/pokemonPagenate';
 import stringToNumber from '@/utils/stringToNumber';
-import { inter } from './_app';
 
 const PokemonList = () => {
   const { data } = usePokemonListData();
@@ -24,18 +23,7 @@ const PokemonList = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SearchSection />
-      <PokemonDictionary className={inter.className}>
-        {data.pages.map((result) => {
-          if (result.responseData.results.length === 0) return null;
-
-          return (
-            <PokemonDictionary.List
-              key={result.responseData.results[0].name}
-              results={result.responseData.results}
-            />
-          );
-        })}
-      </PokemonDictionary>
+      <DictionarySection />
     </>
   );
 };
