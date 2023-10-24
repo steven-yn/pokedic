@@ -1,13 +1,13 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
 
 interface Props {
-  action: () => void;
+  handleIntersecting: () => void;
   isLastPage?: boolean;
 }
 
 const Intersection = ({
   children,
-  action,
+  handleIntersecting,
   isLastPage,
 }: PropsWithChildren<Props>) => {
   const observerRef = useRef<HTMLDivElement>(null);
@@ -15,7 +15,7 @@ const Intersection = ({
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        action();
+        handleIntersecting();
       }
     });
 

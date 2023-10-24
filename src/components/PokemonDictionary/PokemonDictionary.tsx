@@ -14,14 +14,17 @@ const PokemonDictionary = ({
 }: PropsWithChildren<Props>) => {
   const { fetchStatus, fetchNextPage, isLastPage } = usePokemonListData();
 
-  const action = () => {
+  const handleIntersecting = () => {
     if (fetchStatus === 'fetching' && isLastPage) return;
     fetchNextPage();
   };
 
   return (
     <main className={className}>
-      <Intersection action={action} isLastPage={isLastPage}>
+      <Intersection
+        handleIntersecting={handleIntersecting}
+        isLastPage={isLastPage}
+      >
         {children}
       </Intersection>
       {fetchStatus === 'fetching' && <div>로딩중...</div>}
